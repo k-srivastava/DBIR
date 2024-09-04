@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transpiler", "Transpiler\Transpiler.csproj", "{FF914804-AA50-4431-980C-517EDA045CD9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLite", "Drivers\SQLite\SQLite.csproj", "{B1AAB51F-35A1-4AF0-B5DD-78F21B40BD1B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranspilerTest", "TranspilerTest\TranspilerTest.csproj", "{2AA1B182-9398-4A37-9A94-04925BAC8A91}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FF914804-AA50-4431-980C-517EDA045CD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF914804-AA50-4431-980C-517EDA045CD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF914804-AA50-4431-980C-517EDA045CD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF914804-AA50-4431-980C-517EDA045CD9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1AAB51F-35A1-4AF0-B5DD-78F21B40BD1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1AAB51F-35A1-4AF0-B5DD-78F21B40BD1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1AAB51F-35A1-4AF0-B5DD-78F21B40BD1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1AAB51F-35A1-4AF0-B5DD-78F21B40BD1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AA1B182-9398-4A37-9A94-04925BAC8A91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AA1B182-9398-4A37-9A94-04925BAC8A91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AA1B182-9398-4A37-9A94-04925BAC8A91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AA1B182-9398-4A37-9A94-04925BAC8A91}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
