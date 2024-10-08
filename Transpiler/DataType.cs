@@ -48,6 +48,11 @@ public class IntType(IntStorage storage, long? value = null) : DataType
         return HashCode.Combine((int)Storage, Value);
     }
 
+    public override string ToString()
+    {
+        return Value is null ? $"Int[Storage: {Storage}]" : $"Int[Storage: {Storage}, Value: {Value}]";
+    }
+
     /// <summary>
     ///     Get the corresponding integer storage size from its token type.
     /// </summary>
@@ -113,6 +118,11 @@ public class UIntType(UIntStorage storage, ulong? value = null) : DataType
     public override int GetHashCode()
     {
         return HashCode.Combine((int)Storage, Value);
+    }
+    
+    public override string ToString()
+    {
+        return Value is null ? $"UInt[Storage: {Storage}]" : $"UInt[Storage: {Storage}, Value: {Value}]";
     }
 
     /// <summary>
@@ -192,6 +202,11 @@ public class FloatType(FloatStorage storage, double? value = null) : DataType
     {
         return HashCode.Combine((int)Storage, Value);
     }
+    
+    public override string ToString()
+    {
+        return Value is null ? $"Float[Storage: {Storage}]" : $"Float[Storage: {Storage}, Value: {Value}]";
+    }
 
     /// <summary>
     ///     Get the corresponding floating-pointer number storage size from its token type.
@@ -242,6 +257,13 @@ public class DecimalType(decimal? value = null, uint? precision = null, uint? sc
     {
         return HashCode.Combine(Precision, Scale, Value);
     }
+
+    public override string ToString()
+    {
+        if (Value is null && Precision is null && Scale is null)
+            return "Decimal[]";
+        return $"Decimal[Value: {Value}, Precision: {Precision}, Scale: {Scale}]";
+    }
 }
 
 /// <summary>
@@ -267,6 +289,11 @@ public class BooleanType(bool? value = null) : DataType
     public override int GetHashCode()
     {
         return Value.GetHashCode();
+    }
+
+    public override string ToString()
+    {
+        return Value is null ? "Boolean[]" : $"Boolean[Value: {Value}]";
     }
 }
 
@@ -546,7 +573,7 @@ public class JsonType(string? value = null) : DataType
 /// <summary>
 ///     Represents the lack of value for an <c>Option</c> type. All <c>None</c> types are inherently equal to each other.
 /// </summary>
-public class NoneType : DataType
+public class NoneType() : OptionType<NoneType>(null)
 {
     public override bool Equals(object? obj)
     {
@@ -557,24 +584,29 @@ public class NoneType : DataType
     {
         return GetType().GetHashCode();
     }
+
+    public override string ToString()
+    {
+        return "None";
+    }
 }
 
 /// <summary>
 ///     Represents the presence of value for an <c>Option</c> type which could be any other <c>DataType</c>.
 /// </summary>
 /// <param name="value">Value contained within the type.</param>
-public class SomeType(DataType value) : DataType
+public class SomeType<T>(T value) : OptionType<T>(value) where T: DataType
 {
-    public readonly DataType Value = value;
-
+    public readonly new T Value = value;
+    
     public override bool Equals(object? obj)
     {
-        if (obj is SomeType other)
+        if (obj is SomeType<T> other)
             return Equals(other);
         return false;
     }
 
-    private bool Equals(SomeType other)
+    private bool Equals(SomeType<T> other)
     {
         return Equals(Value, other.Value);
     }
@@ -582,6 +614,11 @@ public class SomeType(DataType value) : DataType
     public override int GetHashCode()
     {
         return Value.GetHashCode();
+    }
+
+    public override string ToString()
+    {
+        return $"Some[Value: {Value}]";
     }
 }
 
@@ -589,25 +626,30 @@ public class SomeType(DataType value) : DataType
 ///     Represents an optional value container over any other <c>DataType</c>.
 /// </summary>
 /// <param name="value">Value represented by the type that could potentially exist.</param>
-public class OptionType(DataType value) : DataType
+public class OptionType<T>(T? value) : DataType where T: DataType
 {
-    public readonly DataType Value = value;
+    public readonly T? Value = value;
 
     public override bool Equals(object? obj)
     {
-        if (obj is OptionType other)
+        if (obj is OptionType<T> other)
             return Equals(other);
         return false;
     }
 
-    private bool Equals(OptionType other)
+    private bool Equals(OptionType<T> other)
     {
         return Equals(Value, other.Value);
     }
 
     public override int GetHashCode()
     {
-        return Value.GetHashCode();
+        return Value != null ? Value.GetHashCode() : 42;
+    }
+
+    public override string ToString()
+    {
+        return $"Option[Value: {Value}]";
     }
 }
 

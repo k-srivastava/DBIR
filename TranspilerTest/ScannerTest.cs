@@ -333,10 +333,11 @@ public class Tests
 
         List<Token> expectedTokens =
         [
-            new(TokenType.Option, "Option[Int32]", new OptionType(new IntType(IntStorage.Int32)), 1),
-            new(
+            new(TokenType.Option, "Option[Int32]", new OptionType<IntType>(new IntType(IntStorage.Int32)), 1),
+            new
+            (
                 TokenType.Option, "Option[Option[Int32]]",
-                new OptionType(new OptionType(new IntType(IntStorage.Int32, 123))), 2
+                new OptionType<OptionType<IntType>>(new OptionType<IntType>(new IntType(IntStorage.Int32, 123))), 2
             ),
             new(TokenType.Eof, "", null, 3)
         ];
@@ -356,13 +357,13 @@ public class Tests
 
         List<Token> expectedTokens =
         [
-            new(TokenType.Some, "Some[Int32[123]]", new SomeType(new IntType(IntStorage.Int32)), 1),
+            new(TokenType.Some, "Some[Int32[123]]", new SomeType<IntType>(new IntType(IntStorage.Int32)), 1),
             new
             (
                 TokenType.Some, "Some[Some[Int32[123]]]",
-                new SomeType(new SomeType(new IntType(IntStorage.Int32, 123))), 2
+                new SomeType<SomeType<IntType>>(new SomeType<IntType>(new IntType(IntStorage.Int32, 123))), 2
             ),
-            new(TokenType.Some, "Some[None]", new SomeType(new NoneType()), 3),
+            new(TokenType.Some, "Some[None]", new SomeType<NoneType>(new NoneType()), 3),
             new(TokenType.Eof, "", null, 4)
         ];
 
