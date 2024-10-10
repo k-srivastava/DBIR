@@ -2,7 +2,7 @@ using Transpiler;
 
 namespace TranspilerTest;
 
-public class Tests
+public class ScannerTest
 {
     [Test]
     public void ResolveInt()
