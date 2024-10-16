@@ -33,12 +33,6 @@ public enum IntStorage
 /// <param name="Value">Value held by the integer, if any.</param>
 public record IntType(IntStorage Storage, long? Value = null) : DataType
 {
-    public static readonly IEnumerable<TokenType> TokenTypes =
-    [
-        TokenType.Int0, TokenType.Int8, TokenType.Int16, TokenType.Int24, TokenType.Int32, TokenType.Int48,
-        TokenType.Int64
-    ];
-
     public override bool IsInstance()
     {
         return Value.HasValue;
