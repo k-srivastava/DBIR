@@ -6,11 +6,11 @@ namespace Transpiler;
 public abstract record DataType
 {
     /// <summary>
-    /// Check if the data type is a type or an instance of the type.
+    ///     Check if the data type is a type or an instance of the type.
     /// </summary>
     /// <returns>Whether the data type is an instance of the type, or not.</returns>
     public abstract bool IsInstance();
-};
+}
 
 /// <summary>
 ///     All possible storage sizes for the <c>IntType</c> data type. Ranges from 0 to 64 bits in size.
@@ -218,11 +218,6 @@ public record BooleanType(bool? Value = null) : DataType
 /// <param name="Resizable">Whether the bit field is resizable after allocation, defaults to <c>false</c>.</param>
 public record BitFieldType(bool[]? Value = null, bool Resizable = false) : DataType
 {
-    public override bool IsInstance()
-    {
-        return Value is not null;
-    }
-
     public virtual bool Equals(BitFieldType? other)
     {
         if (other is null)
@@ -235,6 +230,11 @@ public record BitFieldType(bool[]? Value = null, bool Resizable = false) : DataT
             return true;
 
         return Value!.SequenceEqual(other.Value!);
+    }
+
+    public override bool IsInstance()
+    {
+        return Value is not null;
     }
 
     public override int GetHashCode()
@@ -250,11 +250,6 @@ public record BitFieldType(bool[]? Value = null, bool Resizable = false) : DataT
 /// <param name="Resizable">Whether the byte field is resizable after allocation, defaults to <c>false</c>.</param>
 public record ByteFieldType(byte[]? Value = null, bool Resizable = false) : DataType
 {
-    public override bool IsInstance()
-    {
-        return Value is not null;
-    }
-
     public virtual bool Equals(ByteFieldType? other)
     {
         if (other is null)
@@ -267,6 +262,11 @@ public record ByteFieldType(byte[]? Value = null, bool Resizable = false) : Data
             return true;
 
         return Value!.SequenceEqual(other.Value!);
+    }
+
+    public override bool IsInstance()
+    {
+        return Value is not null;
     }
 
     public override int GetHashCode()
@@ -282,11 +282,6 @@ public record ByteFieldType(byte[]? Value = null, bool Resizable = false) : Data
 /// <param name="Resizable">Whether the char field is resizable after allocation, defaults to <c>false</c>.</param>
 public record CharFieldType(char[]? Value = null, bool Resizable = false) : DataType
 {
-    public override bool IsInstance()
-    {
-        return Value is not null;
-    }
-
     public virtual bool Equals(CharFieldType? other)
     {
         if (other is null)
@@ -299,6 +294,11 @@ public record CharFieldType(char[]? Value = null, bool Resizable = false) : Data
             return true;
 
         return Value!.SequenceEqual(other.Value!);
+    }
+
+    public override bool IsInstance()
+    {
+        return Value is not null;
     }
 
     public override int GetHashCode()

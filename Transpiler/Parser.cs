@@ -1,19 +1,18 @@
 namespace Transpiler;
 
 /// <summary>
-/// Parses a list of tokens to a list of statements and errors.
+///     Parses a list of tokens to a list of statements and errors.
 /// </summary>
 /// <param name="tokens">List of tokens to be parsed into statements.</param>
 public class Parser(List<Token> tokens)
 {
+    public readonly List<string> Errors = [];
+    private int _currentIndex = 1;
     private Token _currentToken = tokens[0];
     private Token _nextToken = tokens[1];
-    private int _currentIndex = 1;
-
-    public readonly List<string> Errors = [];
 
     /// <summary>
-    /// Begin parsing the tokens and generate a list of statements and errors.
+    ///     Begin parsing the tokens and generate a list of statements and errors.
     /// </summary>
     /// <returns>List of valid statements corresponding to the tokens.</returns>
     public List<Statement> ParseTokens()
@@ -32,7 +31,7 @@ public class Parser(List<Token> tokens)
     }
 
     /// <summary>
-    /// Parse the current token group and generate its corresponding statement.
+    ///     Parse the current token group and generate its corresponding statement.
     /// </summary>
     /// <returns></returns>
     private Statement? ParseStatement()
@@ -76,7 +75,7 @@ public class Parser(List<Token> tokens)
     }
 
     /// <summary>
-    /// Try to parse the DDL statement to create and add a new column.
+    ///     Try to parse the DDL statement to create and add a new column.
     /// </summary>
     /// <returns>Parsed statement if successful else <c>null</c>.</returns>
     private AddColumn? ParseAddColumnStatement()
@@ -104,7 +103,7 @@ public class Parser(List<Token> tokens)
     }
 
     /// <summary>
-    /// Try to parse the DDL statement to create and add a new constraint.
+    ///     Try to parse the DDL statement to create and add a new constraint.
     /// </summary>
     /// <returns>Parsed statement if successful else <c>null</c>.</returns>
     /// <exception cref="NotImplementedException"></exception>
@@ -114,7 +113,7 @@ public class Parser(List<Token> tokens)
     }
 
     /// <summary>
-    /// Try to parse the DDL statement to delete a column.
+    ///     Try to parse the DDL statement to delete a column.
     /// </summary>
     /// <returns>Parsed statement if successful else <c>null</c>.</returns>
     private DeleteColumn? ParseDeleteColumnStatement()
@@ -129,7 +128,7 @@ public class Parser(List<Token> tokens)
     }
 
     /// <summary>
-    /// Try to parse the DDL statement to delete a constraint.
+    ///     Try to parse the DDL statement to delete a constraint.
     /// </summary>
     /// <returns>Parsed statement if successful else <c>null</c>.</returns>
     private DeleteConstraint? ParseDeleteConstraintStatement()
@@ -144,7 +143,7 @@ public class Parser(List<Token> tokens)
     }
 
     /// <summary>
-    /// Try to parse the DDL statement to delete a database.
+    ///     Try to parse the DDL statement to delete a database.
     /// </summary>
     /// <returns>Parsed statement if successful else <c>null</c>.</returns>
     private DeleteDatabase? ParseDeleteDatabaseStatement()
@@ -170,7 +169,7 @@ public class Parser(List<Token> tokens)
     }
 
     /// <summary>
-    /// Try to parse the DDL statement to delete a table.
+    ///     Try to parse the DDL statement to delete a table.
     /// </summary>
     /// <returns>Parsed statement if successful else <c>null</c>.</returns>
     private DeleteTable? ParseDeleteTableStatement()
@@ -185,7 +184,7 @@ public class Parser(List<Token> tokens)
     }
 
     /// <summary>
-    /// Try to parse the DDL statement to edit a column.
+    ///     Try to parse the DDL statement to edit a column.
     /// </summary>
     /// <returns>Parsed statement if successful else <c>null</c>.</returns>
     private EditColumn? ParseEditColumnStatement()
@@ -213,7 +212,7 @@ public class Parser(List<Token> tokens)
     }
 
     /// <summary>
-    /// Try to parse the DDL statement to create a new database.
+    ///     Try to parse the DDL statement to create a new database.
     /// </summary>
     /// <returns>Parsed statement if successful else <c>null</c>.</returns>
     private NewDatabase? ParseNewDatabaseStatement()
@@ -261,7 +260,7 @@ public class Parser(List<Token> tokens)
     }
 
     /// <summary>
-    /// Try to parse the DDL statement to create a new database.
+    ///     Try to parse the DDL statement to create a new database.
     /// </summary>
     /// <returns>Parsed statement if successful else <c>null</c>.</returns>
     /// <exception cref="NotImplementedException"></exception>
@@ -271,7 +270,7 @@ public class Parser(List<Token> tokens)
     }
 
     /// <summary>
-    /// Try to parse the DDL statement to rename a column.
+    ///     Try to parse the DDL statement to rename a column.
     /// </summary>
     /// <returns>Parsed statement if successful else <c>null</c>.</returns>
     private RenameColumn? ParseRenameColumnStatement()
@@ -294,7 +293,7 @@ public class Parser(List<Token> tokens)
     }
 
     /// <summary>
-    /// Try to parse the DDL statement to rename a table.
+    ///     Try to parse the DDL statement to rename a table.
     /// </summary>
     /// <returns>Parsed statement if successful else <c>null</c>.</returns>
     private RenameTable? ParseRenameTableStatement()
@@ -317,7 +316,8 @@ public class Parser(List<Token> tokens)
     }
 
     /// <summary>
-    /// Update the current and next token pointers to the list of tokens. When at the end, both current and next tokens point to the EOF token.
+    ///     Update the current and next token pointers to the list of tokens. When at the end, both current and next tokens
+    ///     point to the EOF token.
     /// </summary>
     private void NextToken()
     {
@@ -328,7 +328,8 @@ public class Parser(List<Token> tokens)
     }
 
     /// <summary>
-    /// Check whether the next token pointer type matches the expected token type if not, an error is added. The parser advances in either case.
+    ///     Check whether the next token pointer type matches the expected token type if not, an error is added. The parser
+    ///     advances in either case.
     /// </summary>
     /// <param name="type">Token type which next token is expected to be.</param>
     /// <returns><c>true</c> if the next token type matches the expected token type else <c>false</c>.</returns>
@@ -345,7 +346,7 @@ public class Parser(List<Token> tokens)
     }
 
     /// <summary>
-    /// Parse an identifier surrounded by parenthesis and separated by dots.
+    ///     Parse an identifier surrounded by parenthesis and separated by dots.
     /// </summary>
     /// <param name="line">Line number on which the identifier occurs.</param>
     /// <returns>Identifier if parsing was successful else <c>null</c>.</returns>
@@ -382,7 +383,7 @@ public class Parser(List<Token> tokens)
     }
 
     /// <summary>
-    /// Parse a field and its corresponding value found in configurations for statements.
+    ///     Parse a field and its corresponding value found in configurations for statements.
     /// </summary>
     /// <param name="fieldName">Name of the field to be parsed.</param>
     /// <param name="isInstance">Whether the data type corresponding to the field is a type or instance.</param>

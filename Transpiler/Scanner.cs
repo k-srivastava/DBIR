@@ -1,19 +1,18 @@
 namespace Transpiler;
 
 /// <summary>
-/// Scans a raw code source to a list of valid tokens. Also resolves primitive types.
+///     Scans a raw code source to a list of valid tokens. Also resolves primitive types.
 /// </summary>
 /// <param name="source">Raw source code to be scanned into tokens.</param>
 public class Scanner(string source)
 {
-    private int _start;
+    private readonly List<Token> _tokens = [];
     private int _current;
     private uint _line = 1;
-
-    private readonly List<Token> _tokens = [];
+    private int _start;
 
     /// <summary>
-    /// Begin scanning the source and generate a list of valid tokens.
+    ///     Begin scanning the source and generate a list of valid tokens.
     /// </summary>
     /// <returns>List of valid tokens corresponding to the source.</returns>
     public List<Token> ScanTokens()
@@ -29,7 +28,7 @@ public class Scanner(string source)
     }
 
     /// <summary>
-    /// Scan the current word of the source and generate its corresponding token.
+    ///     Scan the current word of the source and generate its corresponding token.
     /// </summary>
     private void ScanToken()
     {
@@ -127,7 +126,7 @@ public class Scanner(string source)
     }
 
     /// <summary>
-    /// Scan an identifier that does not directly correspond to raw tokens.
+    ///     Scan an identifier that does not directly correspond to raw tokens.
     /// </summary>
     private void ScanIdentifier()
     {
@@ -143,7 +142,7 @@ public class Scanner(string source)
     }
 
     /// <summary>
-    /// Resolve a source substring that corresponds to a data type.
+    ///     Resolve a source substring that corresponds to a data type.
     /// </summary>
     /// <param name="text">Substring that corresponds to a data type.</param>
     private void ResolveDataType(string text)
@@ -209,7 +208,7 @@ public class Scanner(string source)
     }
 
     /// <summary>
-    /// Try to resolve an integer type. Logs a DBIR error if it fails.
+    ///     Try to resolve an integer type. Logs a DBIR error if it fails.
     /// </summary>
     /// <param name="intType">Type of integer to resolve; corresponds to its storage class.</param>
     /// <returns>Resolved integer type if successful else <c>null</c>.</returns>
@@ -234,7 +233,7 @@ public class Scanner(string source)
     }
 
     /// <summary>
-    /// Try to resolve an unsigned integer type. Logs a DBIR error if it fails.
+    ///     Try to resolve an unsigned integer type. Logs a DBIR error if it fails.
     /// </summary>
     /// <param name="uintType">Type of unsigned integer to resolve; corresponds to its storage class.</param>
     /// <returns>Resolved unsigned integer type if successful else <c>null</c>.</returns>
@@ -259,7 +258,7 @@ public class Scanner(string source)
     }
 
     /// <summary>
-    /// Try to resolve a floating-point number type. Logs a DBIR error if it fails.
+    ///     Try to resolve a floating-point number type. Logs a DBIR error if it fails.
     /// </summary>
     /// <param name="floatType">Type of floating-point number to resolve; corresponds to its storage class.</param>
     /// <returns>Resolved floating-point number type if successful else <c>null</c>.</returns>
@@ -284,7 +283,7 @@ public class Scanner(string source)
     }
 
     /// <summary>
-    /// Try to resolve a decimal number type. Logs a DBIR error if it fails. 
+    ///     Try to resolve a decimal number type. Logs a DBIR error if it fails.
     /// </summary>
     /// <returns>Resolved decimal number type if successful else <c>null</c>.</returns>
     private DecimalType? ResolveDecimal()
@@ -316,7 +315,7 @@ public class Scanner(string source)
     }
 
     /// <summary>
-    /// Try to resolve a boolean type. Logs a DBIR error if it fails. 
+    ///     Try to resolve a boolean type. Logs a DBIR error if it fails.
     /// </summary>
     /// <returns>Resolved boolean type if successful else <c>null</c>.</returns>
     private BooleanType? ResolveBoolean()
@@ -345,7 +344,7 @@ public class Scanner(string source)
     }
 
     /// <summary>
-    /// Tru to resolve a field type. Logs a DBIR error if it fails.
+    ///     Tru to resolve a field type. Logs a DBIR error if it fails.
     /// </summary>
     /// <param name="fieldType">Type of field to resolve, could be a bit-field, byte-field or char-field.</param>
     /// <returns>Resolved field type if successful else <c>null</c>.</returns>
@@ -359,7 +358,7 @@ public class Scanner(string source)
         };
 
         if (Peek() != '[')
-            return (DataType?)Activator.CreateInstance(field, [null, false]);
+            return (DataType?)Activator.CreateInstance(field, null, false);
 
         Advance();
         var rawString = string.Empty;
@@ -403,7 +402,7 @@ public class Scanner(string source)
     }
 
     /// <summary>
-    /// Try to resolve a generic date type.
+    ///     Try to resolve a generic date type.
     /// </summary>
     /// <param name="dateType">Type of generic date to resolve, could be a date, time, date-time or interval.</param>
     /// <returns>Resolved generic date type if successful else <c>null</c>.</returns>
@@ -419,7 +418,7 @@ public class Scanner(string source)
     }
 
     /// <summary>
-    /// Try to resolve a date type. Logs a DBIR error if it fails.
+    ///     Try to resolve a date type. Logs a DBIR error if it fails.
     /// </summary>
     /// <returns>Resolved date type if successful else <c>null</c>.</returns>
     private DateType? ResolveDate()
@@ -444,7 +443,7 @@ public class Scanner(string source)
     }
 
     /// <summary>
-    /// Try to resolve a time type. Logs a DBIR error if it fails.
+    ///     Try to resolve a time type. Logs a DBIR error if it fails.
     /// </summary>
     /// <returns>Resolved time type if successful else <c>null</c>.</returns>
     private TimeType? ResolveTime()
@@ -473,7 +472,7 @@ public class Scanner(string source)
     }
 
     /// <summary>
-    /// Try to resolve a date-time type. Logs a DBIR error if it fails.
+    ///     Try to resolve a date-time type. Logs a DBIR error if it fails.
     /// </summary>
     /// <returns>Resolved date-time type if successful else <c>null</c>.</returns>
     private DateTimeType? ResolveDateTime()
@@ -563,7 +562,7 @@ public class Scanner(string source)
     }
 
     /// <summary>
-    /// Try to resolve an interval type. Logs a DBIR error if it fails.
+    ///     Try to resolve an interval type. Logs a DBIR error if it fails.
     /// </summary>
     /// <returns>Resolved interval type if successful else <c>null</c>.</returns>
     private IntervalType? ResolveInterval()
@@ -600,7 +599,7 @@ public class Scanner(string source)
     }
 
     /// <summary>
-    /// Try to resolve a JSON type. Logs a DBIR error if it fails.
+    ///     Try to resolve a JSON type. Logs a DBIR error if it fails.
     /// </summary>
     /// <returns>Resolved JSON type if successful else <c>null</c>.</returns>
     /// <exception cref="NotImplementedException">Complex compound type resolution has not been implemented yet.</exception>
@@ -610,7 +609,7 @@ public class Scanner(string source)
     }
 
     /// <summary>
-    /// Try to resolve a pointer type. Logs a DBIR error if it fails.
+    ///     Try to resolve a pointer type. Logs a DBIR error if it fails.
     /// </summary>
     /// <returns>Resolved pointer type if successful else <c>null</c>.</returns>
     /// <exception cref="NotImplementedException">Complex compound type resolution has not been implemented yet.</exception>
@@ -620,7 +619,7 @@ public class Scanner(string source)
     }
 
     /// <summary>
-    /// Try to resolve an option type. Logs a DBIR error if it fails.
+    ///     Try to resolve an option type. Logs a DBIR error if it fails.
     /// </summary>
     /// <returns>Resolved option type if successful else <c>null</c>.</returns>
     /// <exception cref="NotImplementedException">Complex compound type resolution has not been implemented yet.</exception>
@@ -630,7 +629,7 @@ public class Scanner(string source)
     }
 
     /// <summary>
-    /// Parse an unsigned integer from the current source terminating at the peek character. Logs a DBIR error if it fails.
+    ///     Parse an unsigned integer from the current source terminating at the peek character. Logs a DBIR error if it fails.
     /// </summary>
     /// <param name="peekChar">Character to stop parsing the unsigned integer at.</param>
     /// <returns>Parsed unsigned integer if successful else <c>null</c>.</returns>
@@ -649,7 +648,7 @@ public class Scanner(string source)
     }
 
     /// <summary>
-    /// Add the recently parsed token from the source to the parsed tokens list.
+    ///     Add the recently parsed token from the source to the parsed tokens list.
     /// </summary>
     /// <param name="type">Type of the token just parsed.</param>
     /// <param name="literal">Value contained within the token just parsed.</param>
@@ -660,7 +659,7 @@ public class Scanner(string source)
     }
 
     /// <summary>
-    /// Get the current character in the source. If at the end of the source, get the null-termination character.
+    ///     Get the current character in the source. If at the end of the source, get the null-termination character.
     /// </summary>
     /// <returns>Current character in the source.</returns>
     private char Peek()
@@ -669,7 +668,7 @@ public class Scanner(string source)
     }
 
     /// <summary>
-    /// Get the current character in the source and advance the pointer to the next character.
+    ///     Get the current character in the source and advance the pointer to the next character.
     /// </summary>
     /// <returns>Current character in the source.</returns>
     private char Advance()
@@ -678,7 +677,7 @@ public class Scanner(string source)
     }
 
     /// <summary>
-    /// Continue advancing the source until the expected character is found or the source ends.
+    ///     Continue advancing the source until the expected character is found or the source ends.
     /// </summary>
     /// <param name="expected">Expected character in the source, defaults to <c>'='</c>.</param>
     /// <returns>Whether the expected character has been found in the source.</returns>
@@ -695,7 +694,7 @@ public class Scanner(string source)
     }
 
     /// <summary>
-    /// Check whether the current pointer has reached the end of the source.
+    ///     Check whether the current pointer has reached the end of the source.
     /// </summary>
     /// <returns>Whether the pointer is at the end of the source.</returns>
     private bool AtEnd()

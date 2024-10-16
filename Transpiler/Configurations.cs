@@ -1,7 +1,7 @@
 namespace Transpiler;
 
 /// <summary>
-/// Configure conflict resolution options.
+///     Configure conflict resolution options.
 /// </summary>
 public enum ConflictConfiguration
 {
@@ -13,7 +13,7 @@ public enum ConflictConfiguration
 }
 
 /// <summary>
-/// Configure key validation deference.
+///     Configure key validation deference.
 /// </summary>
 public enum DeferConfiguration
 {
@@ -22,7 +22,7 @@ public enum DeferConfiguration
 }
 
 /// <summary>
-/// Configure foreign key modification options.
+///     Configure foreign key modification options.
 /// </summary>
 public enum ForeignKeyModifyConfiguration
 {
@@ -34,7 +34,7 @@ public enum ForeignKeyModifyConfiguration
 }
 
 /// <summary>
-/// Configure join options.
+///     Configure join options.
 /// </summary>
 public enum JoinConfiguration
 {
@@ -46,7 +46,7 @@ public enum JoinConfiguration
 }
 
 /// <summary>
-/// Create a new column.
+///     Create a new column.
 /// </summary>
 /// <param name="Type">Data type held by the column.</param>
 /// <param name="Visible">Whether the column is visible or not.</param>
@@ -59,7 +59,7 @@ public readonly record struct ColumnDefinition(DataType Type, BooleanType Visibl
 }
 
 /// <summary>
-/// Create a new constraint.
+///     Create a new constraint.
 /// </summary>
 /// <param name="Column">Column on which the constraint operates.</param>
 /// <param name="Unique">Conflict configuration for a unique constraint, if any.</param>
@@ -85,7 +85,7 @@ public readonly record struct ConstraintDefinition(
 }
 
 /// <summary>
-/// Define a new database.
+///     Define a new database.
 /// </summary>
 /// <param name="Password">Password of the database.</param>
 /// <param name="Encryption">Encryption used within the database.</param>
@@ -109,7 +109,7 @@ public readonly record struct DatabaseDefinition(
 }
 
 /// <summary>
-/// Delete a record.
+///     Delete a record.
 /// </summary>
 /// <param name="Where">Expression evaluated to find records to delete, if any.</param>
 /// <param name="OrderBy">Order the deletion by names.</param>
@@ -124,7 +124,7 @@ public readonly record struct DeleteDefinition(Expression? Where, IEnumerable<Id
 }
 
 /// <summary>
-/// Insert a record.
+///     Insert a record.
 /// </summary>
 /// <param name="Replace">Whether the record should replace an already existing one.</param>
 public readonly record struct InsertDefinition(BooleanType Replace)
@@ -136,7 +136,7 @@ public readonly record struct InsertDefinition(BooleanType Replace)
 }
 
 /// <summary>
-/// Join two tables.
+///     Join two tables.
 /// </summary>
 /// <param name="JoinType">Type of join between the tables.</param>
 /// <param name="On">Table to be joined on, if any.</param>
@@ -150,7 +150,7 @@ public readonly record struct JoinDefinition(JoinConfiguration JoinType, Express
 }
 
 /// <summary>
-/// Select records.
+///     Select records.
 /// </summary>
 /// <param name="Distinct">Whether to select only distinct results.</param>
 /// <param name="Where">Expression evaluated to find records to select, if any.</param>
@@ -177,7 +177,7 @@ public readonly record struct SelectDefinition(
 }
 
 /// <summary>
-/// Create a new table.
+///     Create a new table.
 /// </summary>
 /// <param name="Columns">Column details within the table.</param>
 /// <param name="Constraints">Constraints within the table.</param>
@@ -195,7 +195,7 @@ public readonly record struct TableDefinition(
 }
 
 /// <summary>
-/// Insert new records into a table.
+///     Insert new records into a table.
 /// </summary>
 /// <param name="Mapping">Mapping of column names to values for the table.</param>
 public readonly record struct TableInsertDefinition(Dictionary<Identifier, DataType> Mapping)
@@ -210,7 +210,7 @@ public readonly record struct TableInsertDefinition(Dictionary<Identifier, DataT
 public readonly record struct UpdateDefinition;
 
 /// <summary>
-/// Create a new primary key.
+///     Create a new primary key.
 /// </summary>
 /// <param name="Ascending">Whether to order in ascending order.</param>
 /// <param name="AutoIncrement">Whether to automatically increment the next primary key.</param>
@@ -230,7 +230,7 @@ public readonly record struct PrimaryKeyConstraintDefinition(
 }
 
 /// <summary>
-/// Create a new foreign key.
+///     Create a new foreign key.
 /// </summary>
 /// <param name="ReferenceColumns">Column referenced in the foreign key.</param>
 /// <param name="OnUpdate">Modification configuration on key update, if any.</param>
