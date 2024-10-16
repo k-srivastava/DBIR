@@ -282,7 +282,7 @@ public class Scanner(string source)
         Dbir.Error(_line, $"Unable to parse {number} as a double.");
         return null;
     }
-    
+
     /// <summary>
     /// Try to resolve a decimal number type. Logs a DBIR error if it fails. 
     /// </summary>
@@ -384,19 +384,19 @@ public class Scanner(string source)
         {
             case TokenType.BitField:
             {
-                bool[] bits = rawArray.Select(bool.Parse).ToArray();
+                bool[] bits = rawArray[0] == "" ? [] : rawArray.Select(bool.Parse).ToArray();
                 return new BitFieldType(bits, resizable);
             }
 
             case TokenType.ByteField:
             {
-                byte[] bytes = rawArray.Select(byte.Parse).ToArray();
+                byte[] bytes = rawArray[0] == "" ? [] : rawArray.Select(byte.Parse).ToArray();
                 return new ByteFieldType(bytes, resizable);
             }
 
             default:
             {
-                char[] chars = rawArray.Select(s => s.Trim()[1]).ToArray();
+                char[] chars = rawArray[0] == "" ? [] : rawArray.Select(s => s.Trim()[1]).ToArray();
                 return new CharFieldType(chars, resizable);
             }
         }
