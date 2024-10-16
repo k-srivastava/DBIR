@@ -222,6 +222,25 @@ public record BitFieldType(bool[]? Value = null, bool Resizable = false) : DataT
     {
         return Value is not null;
     }
+    
+    public virtual bool Equals(BitFieldType? other)
+    {
+        if (other is null)
+            return false;
+
+        if (other.Resizable != Resizable)
+            return false;
+
+        if (Value is null && other.Value is null)
+            return true;
+        
+        return Value!.SequenceEqual(other.Value!);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(base.GetHashCode(), Value, Resizable);
+    }
 }
 
 /// <summary>
@@ -235,6 +254,25 @@ public record ByteFieldType(byte[]? Value = null, bool Resizable = false) : Data
     {
         return Value is not null;
     }
+    
+    public virtual bool Equals(ByteFieldType? other)
+    {
+        if (other is null)
+            return false;
+
+        if (other.Resizable != Resizable)
+            return false;
+
+        if (Value is null && other.Value is null)
+            return true;
+        
+        return Value!.SequenceEqual(other.Value!);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(base.GetHashCode(), Value, Resizable);
+    }
 }
 
 /// <summary>
@@ -247,6 +285,25 @@ public record CharFieldType(char[]? Value = null, bool Resizable = false) : Data
     public override bool IsInstance()
     {
         return Value is not null;
+    }
+
+    public virtual bool Equals(CharFieldType? other)
+    {
+        if (other is null)
+            return false;
+
+        if (other.Resizable != Resizable)
+            return false;
+
+        if (Value is null && other.Value is null)
+            return true;
+        
+        return Value!.SequenceEqual(other.Value!);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(base.GetHashCode(), Value, Resizable);
     }
 }
 
