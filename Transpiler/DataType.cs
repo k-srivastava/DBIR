@@ -222,11 +222,6 @@ public record BitFieldType(bool[]? Value = null, bool Resizable = false) : DataT
     {
         return Value is not null;
     }
-
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(Resizable, Value);
-    }
 }
 
 /// <summary>
