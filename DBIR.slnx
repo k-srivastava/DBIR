@@ -1,0 +1,5 @@
+﻿<Solution>
+  <Project Path="Drivers\SQLite\SQLite.csproj" Type="Classic C#" />
+  <Project Path="TranspilerTest\TranspilerTest.csproj" Type="Classic C#" />
+  <Project Path="Transpiler\Transpiler.csproj" Type="Classic C#" />
+</Solution>
