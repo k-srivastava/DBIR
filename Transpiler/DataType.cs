@@ -222,7 +222,7 @@ public record BitFieldType(bool[]? Value = null, bool Resizable = false) : DataT
     {
         return Value is not null;
     }
-    
+
     public virtual bool Equals(BitFieldType? other)
     {
         if (other is null)
@@ -233,7 +233,7 @@ public record BitFieldType(bool[]? Value = null, bool Resizable = false) : DataT
 
         if (Value is null && other.Value is null)
             return true;
-        
+
         return Value!.SequenceEqual(other.Value!);
     }
 
@@ -254,7 +254,7 @@ public record ByteFieldType(byte[]? Value = null, bool Resizable = false) : Data
     {
         return Value is not null;
     }
-    
+
     public virtual bool Equals(ByteFieldType? other)
     {
         if (other is null)
@@ -265,7 +265,7 @@ public record ByteFieldType(byte[]? Value = null, bool Resizable = false) : Data
 
         if (Value is null && other.Value is null)
             return true;
-        
+
         return Value!.SequenceEqual(other.Value!);
     }
 
@@ -297,13 +297,20 @@ public record CharFieldType(char[]? Value = null, bool Resizable = false) : Data
 
         if (Value is null && other.Value is null)
             return true;
-        
+
         return Value!.SequenceEqual(other.Value!);
     }
 
     public override int GetHashCode()
     {
         return HashCode.Combine(base.GetHashCode(), Value, Resizable);
+    }
+
+    public override string ToString()
+    {
+        return IsInstance()
+            ? $"CharField[\"{string.Join("", Value!)}\", Resizable: {Resizable}]"
+            : $"CharField[Resizable: {Resizable}]";
     }
 }
 
@@ -401,6 +408,7 @@ public record NoneType() : OptionType<NoneType>(null);
 ///     Represents the presence of value for an <c>Option</c> type which could be any other <c>DataType</c>.
 /// </summary>
 /// <param name="Value">Value contained within the type.</param>
+/// <typeparam name="T">Data type encapsulated within the some.</typeparam>
 public record SomeType<T>(T Value) : OptionType<T>(Value) where T : DataType
 {
     public override string ToString()
@@ -413,6 +421,7 @@ public record SomeType<T>(T Value) : OptionType<T>(Value) where T : DataType
 ///     Represents an optional value container over any other <c>DataType</c>.
 /// </summary>
 /// <param name="Value">Value represented by the type that could potentially exist.</param>
+/// <typeparam name="T">Data type encapsulated within the option.</typeparam>
 public record OptionType<T>(T? Value) : DataType where T : DataType
 {
     public override bool IsInstance()
