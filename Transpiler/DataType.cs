@@ -3,7 +3,14 @@ namespace Transpiler;
 /// <summary>
 ///     Abstract data type representing all data types supported in the language.
 /// </summary>
-public abstract record DataType;
+public abstract record DataType
+{
+    /// <summary>
+    /// Check if the data type is a type or an instance of the type.
+    /// </summary>
+    /// <returns>Whether the data type is an instance of the type, or not.</returns>
+    public abstract bool IsInstance();
+};
 
 /// <summary>
 ///     All possible storage sizes for the <c>IntType</c> data type. Ranges from 0 to 64 bits in size.
@@ -26,6 +33,17 @@ public enum IntStorage
 /// <param name="Value">Value held by the integer, if any.</param>
 public record IntType(IntStorage Storage, long? Value = null) : DataType
 {
+    public static readonly IEnumerable<TokenType> TokenTypes =
+    [
+        TokenType.Int0, TokenType.Int8, TokenType.Int16, TokenType.Int24, TokenType.Int32, TokenType.Int48,
+        TokenType.Int64
+    ];
+
+    public override bool IsInstance()
+    {
+        return Value.HasValue;
+    }
+
     public override string ToString()
     {
         return Value is null ? $"Int[Storage: {Storage}]" : $"Int[Storage: {Storage}, Value: {Value}]";
@@ -78,6 +96,11 @@ public enum UIntStorage
 /// <param name="Value">Value held by the unsigned integer, if any.</param>
 public record UIntType(UIntStorage Storage, ulong? Value = null) : DataType
 {
+    public override bool IsInstance()
+    {
+        return Value.HasValue;
+    }
+
     public override string ToString()
     {
         return Value is null ? $"UInt[Storage: {Storage}]" : $"UInt[Storage: {Storage}, Value: {Value}]";
@@ -125,6 +148,11 @@ public enum FloatStorage
 /// <param name="Value">Value held by the floating-pointer number, if any.</param>
 public record FloatType(FloatStorage Storage, double? Value = null) : DataType
 {
+    public override bool IsInstance()
+    {
+        return Value.HasValue;
+    }
+
     public override string ToString()
     {
         return Value is null ? $"Float[Storage: {Storage}]" : $"Float[Storage: {Storage}, Value: {Value}]";
@@ -159,6 +187,11 @@ public record FloatType(FloatStorage Storage, double? Value = null) : DataType
 /// <param name="Scale">Scale of the decimal number.</param>
 public record DecimalType(decimal? Value = null, uint? Precision = null, uint? Scale = null) : DataType
 {
+    public override bool IsInstance()
+    {
+        return Value.HasValue && Precision.HasValue && Scale.HasValue;
+    }
+
     public override string ToString()
     {
         if (Value is null && Precision is null && Scale is null)
@@ -173,6 +206,11 @@ public record DecimalType(decimal? Value = null, uint? Precision = null, uint? S
 /// <param name="Value">Value help by the boolean, if any.</param>
 public record BooleanType(bool? Value = null) : DataType
 {
+    public override bool IsInstance()
+    {
+        return Value.HasValue;
+    }
+
     public override string ToString()
     {
         return Value is null ? "Boolean[]" : $"Boolean[Value: {Value}]";
@@ -186,6 +224,11 @@ public record BooleanType(bool? Value = null) : DataType
 /// <param name="Resizable">Whether the bit field is resizable after allocation, defaults to <c>false</c>.</param>
 public record BitFieldType(bool[]? Value = null, bool Resizable = false) : DataType
 {
+    public override bool IsInstance()
+    {
+        return Value is not null;
+    }
+
     public override int GetHashCode()
     {
         return HashCode.Combine(Resizable, Value);
@@ -197,14 +240,26 @@ public record BitFieldType(bool[]? Value = null, bool Resizable = false) : DataT
 /// </summary>
 /// <param name="Value">Value of the byte field, if any.</param>
 /// <param name="Resizable">Whether the byte field is resizable after allocation, defaults to <c>false</c>.</param>
-public record ByteFieldType(byte[]? Value = null, bool Resizable = false) : DataType;
+public record ByteFieldType(byte[]? Value = null, bool Resizable = false) : DataType
+{
+    public override bool IsInstance()
+    {
+        return Value is not null;
+    }
+}
 
 /// <summary>
 ///     Field type containing characters represented internally as <c>char</c>s in an array.
 /// </summary>
 /// <param name="Value">Value of the char field, if any.</param>
 /// <param name="Resizable">Whether the char field is resizable after allocation, defaults to <c>false</c>.</param>
-public record CharFieldType(char[]? Value = null, bool Resizable = false) : DataType;
+public record CharFieldType(char[]? Value = null, bool Resizable = false) : DataType
+{
+    public override bool IsInstance()
+    {
+        return Value is not null;
+    }
+}
 
 /// <summary>
 ///     Date type containing the date, month and year for a Gregorian calendar date.
@@ -212,7 +267,13 @@ public record CharFieldType(char[]? Value = null, bool Resizable = false) : Data
 /// <param name="Date">Date, ranges from 1 to 31.</param>
 /// <param name="Month">Month, ranges form 1 to 12.</param>
 /// <param name="Year">Year, range depends on SQL provider.</param>
-public record DateType(uint? Date = null, uint? Month = null, uint? Year = null) : DataType;
+public record DateType(uint? Date = null, uint? Month = null, uint? Year = null) : DataType
+{
+    public override bool IsInstance()
+    {
+        return Date.HasValue && Month.HasValue && Year.HasValue;
+    }
+}
 
 /// <summary>
 ///     Time type containing the hour, minute, second and precision in a 24-hour format.
@@ -221,7 +282,13 @@ public record DateType(uint? Date = null, uint? Month = null, uint? Year = null)
 /// <param name="Minute">Minute, ranges from 0 to 59.</param>
 /// <param name="Second">Second, ranges from 0 to 59.</param>
 /// <param name="Precision">Precision of the time calculation.</param>
-public record TimeType(uint? Hour = null, uint? Minute = null, uint? Second = null, uint? Precision = null) : DataType;
+public record TimeType(uint? Hour = null, uint? Minute = null, uint? Second = null, uint? Precision = null) : DataType
+{
+    public override bool IsInstance()
+    {
+        return Hour.HasValue && Minute.HasValue && Second.HasValue && Precision.HasValue;
+    }
+}
 
 /// <summary>
 ///     Date and time combined into a single type with a timezone.
@@ -229,7 +296,19 @@ public record TimeType(uint? Hour = null, uint? Minute = null, uint? Second = nu
 /// <param name="Date">Date type.</param>
 /// <param name="Time">Time type.</param>
 /// <param name="Timezone">Whether the date and time belong to a timezone.</param>
-public record DateTimeType(DateType? Date = null, TimeType? Time = null, bool? Timezone = null) : DataType;
+public record DateTimeType(DateType? Date = null, TimeType? Time = null, bool? Timezone = null) : DataType
+{
+    public override bool IsInstance()
+    {
+        if (!Timezone.HasValue)
+            return false;
+
+        if (Date is not null && Time is not null)
+            return Date.IsInstance() && Time.IsInstance();
+
+        return !(Date is null && Time is null);
+    }
+}
 
 /// <summary>
 ///     Interval between any two dates or times.
@@ -247,13 +326,25 @@ public record IntervalType(
     uint? Date = null,
     uint? Month = null,
     uint? Year = null
-) : DataType;
+) : DataType
+{
+    public override bool IsInstance()
+    {
+        return Hour.HasValue && Minute.HasValue && Second.HasValue && Date.HasValue && Month.HasValue && Year.HasValue;
+    }
+}
 
 /// <summary>
 ///     Represents a JSON string object.
 /// </summary>
 /// <param name="Value">JSON parsable string data.</param>
-public record JsonType(string? Value = null) : DataType;
+public record JsonType(string? Value = null) : DataType
+{
+    public override bool IsInstance()
+    {
+        return Value is not null;
+    }
+}
 
 /// <summary>
 ///     Represents the lack of value for an <c>Option</c> type. All <c>None</c> types are inherently equal to each other.
@@ -278,6 +369,11 @@ public record SomeType<T>(T Value) : OptionType<T>(Value) where T : DataType
 /// <param name="Value">Value represented by the type that could potentially exist.</param>
 public record OptionType<T>(T? Value) : DataType where T : DataType
 {
+    public override bool IsInstance()
+    {
+        return Value is not null;
+    }
+
     public override string ToString()
     {
         return $"Option[Value: {Value}]";
@@ -288,4 +384,10 @@ public record OptionType<T>(T? Value) : DataType where T : DataType
 ///     Represents a pointer container over any other <c>DataType</c>.
 /// </summary>
 /// <param name="Value">Value pointed to by the pointer.</param>
-public record PointerType(DataType Value) : DataType;
+public record PointerType(DataType Value) : DataType
+{
+    public override bool IsInstance()
+    {
+        return Value.IsInstance();
+    }
+}
