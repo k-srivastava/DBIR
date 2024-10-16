@@ -26,6 +26,11 @@ public enum TokenType
     
     Add, Delete, Edit, Update, Rename, New, Insert, Select, Join,
     
+    AddColumn, DeleteColumn, EditColumn, RenameColumn,
+    AddConstraint, DeleteConstraint,
+    DeleteDatabase, NewDatabase,
+    DeleteTable, NewTable, RenameTable,
+    
     Int0, Int8, Int16, Int24, Int32, Int48, Int64,
     UInt0, UInt8, UInt16, UInt24, UInt32, UInt48, UInt64,
     Float32, Float64, Decimal,
